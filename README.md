@@ -1,4 +1,4 @@
-pywavparser v0.2.0 by Andy Chamberlain
+pywavparser v0.2.1 by Andy Chamberlain
 
 A simple script that you can use to parse a wav file into a list of lists of floats.
 
@@ -23,3 +23,10 @@ Functions:
 
 	bitdepth(filepath)
 	returns: int
+
+Fields/Flags:
+	
+	autopath
+	type: bool
+	default: False
+	description: tells whether the save() function will automatically generate a filepath. If autopath is false, you must enter a filepath argument into the save() function.

@@ -1,23 +1,12 @@
 """
-wavparser v0.2.0 by Andy Chamberlain
+pywavparser 0.2.1 by Andy Chamberlain
+Free to use for any purpose without permission
 
-A simple script that you can use to parse a wav file into a list of lists of floats.
-
-The return value from parse() is a list of channels, where each channel is a list of floats
-and each float represents an audio sample and ranges from -1.0 to 1.0
-
-You can pass in a list of the above format to the save() function and optionally add
-a filepath/filename, specify a bit depth, or specify a sample rate.
-
-The save function will make sure the filename saved is unique so it doesn't overwrite
-but if you want to have more control over the save process you can get the bytes
-directly with get_wav_bytes()
-
-Parsing a wav file loses the sample rate and bit depth information, so there are functions
-to get those values from a file as well: samplerate() and bitdepth()
 """
 
 import os
+
+autopath = False
 
 class WavFormatException(Exception):
 	pass
@@ -122,6 +111,8 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 	wav_bytes = get_wav_bytes(audio_data, filepath, bitdepth, samplerate)
 
 	if filepath == None:
+		if not(autopath):
+			raise ValueError("No filepath given. Try setting wavparser.autopath to true, or inputting a filepath in wavparser.save()")
 		outfile_name = "wavparser_output_"
 		outfile_num = 0
 		while True:
@@ -132,6 +123,8 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 		file = open(outfile_name + str(outfile_num) + ".wav", "wb")
 		file.write(wav_bytes)
 	else:
+		if type(filepath) != str:
+			raise TypeError("The given filepath was not a string")
 		if filepath.endswith(".wav"):
 			filepath = filepath[:-4]
 
