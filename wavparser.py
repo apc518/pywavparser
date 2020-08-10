@@ -76,15 +76,15 @@ def get_wav_bytes(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 	"""returns a wav file as a bytearray based on the inputted audio_data
 	the audio_data must be a list of lists of floats"""
 	if type(audio_data) != list:
-		raise ValueError("The argument given was not a list")
+		raise TypeError("The argument given was not a list")
 	for lst in audio_data:
 		if type(lst) != list:
-			raise ValueError("The argument give was not a list of lists")
+			raise TypeError("The argument give was not a list of lists")
 		for item in lst:
 			if type(item) == int:
 				item = float(item)
 			elif type(item) != float:
-				raise ValueError("Sublists must contain floats. Found a " + str(type(item)))
+				raise TypeError("Sublists must contain floats. Found a " + str(type(item)))
 			if not(item >= -1.0 and item <= 1.0):
 				raise ValueError("Values must be in range [-1.0, 1.0]")
 	for lst in audio_data:
@@ -122,6 +122,7 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 				break
 		file = open(outfile_name + str(outfile_num) + ".wav", "wb")
 		file.write(wav_bytes)
+		return outfile_name + str(outfile_num) + ".wav"
 	else:
 		if type(filepath) != str:
 			raise TypeError("The given filepath was not a string")
@@ -143,6 +144,8 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 					break
 			file = open(outfile_name + " (" + str(outfile_num) + ")" ".wav", "wb")
 			file.write(wav_bytes)
+			return outfile_name + " (" + str(outfile_num) + ")" ".wav"
 		else:
 			file = open(filepath + ".wav", "wb")
 			file.write(wav_bytes)
+			return filepath + ".wav"
