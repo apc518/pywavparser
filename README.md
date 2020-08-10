@@ -2,7 +2,9 @@ pywavparser v0.2.2 by Andy Chamberlain
 
 A simple script that you can use to parse a wav file into a list of lists of floats.
 
-usage:
+At the moment there is no formal installation so you'll just need to put wavparser.py into your working directory.
+
+Example:
 
 ```python
 import wavparser as wp
