@@ -1,4 +1,4 @@
-pywavparser v0.2.2 by Andy Chamberlain
+pywavparser v0.2.3 by Andy Chamberlain
 
 A simple script that you can use to parse a wav file into a list of lists of floats.
 
@@ -14,8 +14,16 @@ audio_data = wp.parse("song.wav")
 sample_rate = wp.samplerate("song.wav")
 bit_depth = wp.bitdepth("song.wav")
 
-# do stuff with the list of list of floats
+# save in working directory with a filename
+# wavparser will ensure ".wav" is the file extension
+wp.save(audio_data, "altered song")
 
+# save with a filepath
+wp.save(audio_data, "example export folder/altered song")
+
+# save in working directory with auto-generated filename
+# on first run this will call the file "wavparser_output_0.wav"
+wp.autopath = True
 wp.save(audio_data)
 ```
 
