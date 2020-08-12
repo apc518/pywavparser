@@ -1,5 +1,5 @@
 """
-pywavparser 0.2.1 by Andy Chamberlain
+pywavparser 0.2.3 by Andy Chamberlain
 Free to use for any purpose without permission
 
 """
