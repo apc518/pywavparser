@@ -1,5 +1,5 @@
 """
-pywavparser 0.2.3 by Andy Chamberlain
+pywavparser 0.3.0 by Andy Chamberlain
 Free to use for any purpose without permission
 
 """
@@ -56,7 +56,11 @@ def parse(filepath):
 			intnum = int.from_bytes(wav_data[i*byps*channel_num + k*byps:i*byps*channel_num + k*byps + byps],'little',signed=True)
 			audio_data[k].append(float(intnum / (2**(bit_depth-1) - 1)))
 
-	return audio_data
+	return [sample_rate, audio_data]
+
+def parseraw(filepath):
+	"""returns only the audio data; no samplerate, no tuple"""
+	return parse(filepath)[1]
 
 def samplerate(filepath, bitdepth=False):
 	wav_file = open(filepath, "rb")
@@ -64,6 +68,7 @@ def samplerate(filepath, bitdepth=False):
 	wav_bytes = bytearray(wav_file.read(128))
 	if not(bytearray(b'fmt ') in wav_bytes):
 		wav_bytes += bytearray(wav_file.read())
+	wav_file.close()
 	fmt_offset = find_fmt_offset(wav_bytes)
 	if bitdepth:
 		return int.from_bytes(wav_bytes[34+fmt_offset:36+fmt_offset],'little',signed=False)
@@ -122,6 +127,7 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 				break
 		file = open(outfile_name + str(outfile_num) + ".wav", "wb")
 		file.write(wav_bytes)
+		file.close()
 		return outfile_name + str(outfile_num) + ".wav"
 	else:
 		if type(filepath) != str:
@@ -144,8 +150,10 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 					break
 			file = open(outfile_name + " (" + str(outfile_num) + ")" ".wav", "wb")
 			file.write(wav_bytes)
+			file.close()
 			return outfile_name + " (" + str(outfile_num) + ")" ".wav"
 		else:
 			file = open(filepath + ".wav", "wb")
 			file.write(wav_bytes)
+			file.close()
 			return filepath + ".wav"
