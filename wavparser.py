@@ -40,7 +40,6 @@ def parse(filepath):
 	bit_depth = int.from_bytes(wav_bytes[34+fmt_offset:36+fmt_offset],'little',signed=False)
 	if bit_depth % 8 != 0:
 		raise WavFormatException("Invalid bit depth. The inputted wav file has a bit depth which isn't divisible by 8.")
-	slice_size = int(channel_num * bit_depth / 8)
 
 	data_bytes_num = int.from_bytes(wav_bytes[40+fmt_offset:44+fmt_offset],'little',signed=False)
 
@@ -56,7 +55,7 @@ def parse(filepath):
 			intnum = int.from_bytes(wav_data[i*byps*channel_num + k*byps:i*byps*channel_num + k*byps + byps],'little',signed=True)
 			audio_data[k].append(float(intnum / (2**(bit_depth-1) - 1)))
 
-	return [sample_rate, audio_data]
+	return (sample_rate, audio_data)
 
 def parseraw(filepath):
 	"""returns only the audio data; no samplerate, no tuple"""
