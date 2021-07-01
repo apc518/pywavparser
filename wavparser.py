@@ -1,12 +1,10 @@
 """
-pywavparser 0.3.0 by Andy Chamberlain
+pywavparser 0.4.0 by Andy Chamberlain
 Free to use for any purpose without permission
 
 """
 
 import os
-
-autopath = False
 
 class WavFormatException(Exception):
 	pass
@@ -115,8 +113,6 @@ def save(audio_data, filepath=None, bitdepth=16, samplerate=44100):
 	wav_bytes = get_wav_bytes(audio_data, filepath, bitdepth, samplerate)
 
 	if filepath == None:
-		if not(autopath):
-			raise ValueError("No filepath given. Try setting wavparser.autopath to true, or inputting a filepath in wavparser.save()")
 		outfile_name = "wavparser_output_"
 		outfile_num = 0
 		while True:
